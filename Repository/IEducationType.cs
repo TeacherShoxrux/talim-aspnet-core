@@ -1,4 +1,4 @@
 using Talim.Data.Entity;
 
 namespace Talim.Repositories;
-public interface IEducationType : IGenericRepository<EducationType> { }
+public interface IEducationTypeRepository : IGenericRepository<EducationType> { }
