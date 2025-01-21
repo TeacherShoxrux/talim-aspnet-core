@@ -5,13 +5,15 @@ public class User : EntityBase
     public string? LastName { get; set; }
     public string? Email { get; set; }
     public string? PhoneNumber { get; set; }
-    public  Password? password { get; set; }
-    public ICollection<Session?>? Session { get; set; }
-    public ICollection<EducationType?>? EducationType { get; set; }
-    public EducationDirection? EducationDirection { get; set; }
-    public ICollection<Subject?>? Subjects { get; set; }
-    public ICollection<Theme?>? Themes { get; set; }
-    public ICollection<ContentImage?>? ContentImage { get; set; }
-    public UserRole Role { get; set; }=UserRole.Student;
+    public string? Image { get; set; }
+    public EUserRole Role { get; set; }=EUserRole.Student;
+    public virtual Session? Session { get; set; }
+    public virtual Password? Password { get; set; }
+    public virtual ICollection<EducationType>? EducationTypes { get; set; }
+    public virtual ICollection<EducationDirection>? EducationDirections { get; set; }
+    public virtual ICollection<Subject>? Subjects { get; set; }
+    public virtual ICollection<Theme>? Themes { get; set; }
+    public virtual ICollection<ContentImage>? ContentImages { get; set; }
+    public virtual ICollection<Content>? Contents { get; set; }
 }
 

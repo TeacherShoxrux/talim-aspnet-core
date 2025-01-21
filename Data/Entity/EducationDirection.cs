@@ -9,9 +9,9 @@ public class EducationDirection : EntityBase
     public string? Description { get; set; }
     public string? Image { get; set; }
     public int UserId { get; set; }
-    public User? User { get; set; }
-    public int TypeId { get; set; }
-    public EducationType? EducationType { get; set; }
-    public ICollection<Subject>? Subjects { get; set; }
+    public virtual User? User { get; set; }
+    public int EducationTypeId { get; set; }
+    public virtual EducationType? EducationType { get; set; }
+    public virtual ICollection<Subject>? Subjects { get; set; }
 
     }

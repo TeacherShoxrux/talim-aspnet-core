@@ -19,7 +19,81 @@ public class ApplicationDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-       
+        //content image foreign key
+       modelBuilder.Entity<ContentImage>()
+            .HasOne(s => s.Content)
+            .WithMany(e => e.ContentImages)
+            .HasForeignKey(s => s.ContentId);
+         modelBuilder.Entity<ContentImage>()
+            .HasOne(s => s.User)
+            .WithMany(e => e.ContentImages)
+            .HasForeignKey(s => s.UserId);
+
+        // content foreign key
+        modelBuilder.Entity<Content>()
+            .HasOne(s => s.Theme)
+            .WithMany(e => e.Contents)
+            .HasForeignKey(s => s.ThemeId);
+        modelBuilder.Entity<Content>()
+            .HasOne(s => s.User)
+            .WithMany(e => e.Contents)
+            .HasForeignKey(s => s.UserId);
+
+        //theme foreign key
+        modelBuilder.Entity<Theme>()
+            .HasOne(s => s.Subject)
+            .WithMany(e => e.Themes)
+            .HasForeignKey(s => s.SubjectId);
+
+        modelBuilder.Entity<Theme>()
+            .HasOne(s => s.User)
+            .WithMany(e => e.Themes)
+            .HasForeignKey(s => s.UserId);
+
+        //subject foreign key
+        modelBuilder.Entity<Subject>()
+            .HasOne(s => s.EducationDirection)
+            .WithMany(e => e.Subjects)
+            .HasForeignKey(s => s.EducationDirectionId);
+        modelBuilder.Entity<Subject>()
+            .HasOne(s => s.User)
+            .WithMany(e => e.Subjects)
+            .HasForeignKey(s => s.UserId);
+
+        //education direction foreign key
+        modelBuilder.Entity<EducationDirection>()
+            .HasOne(s => s.EducationType)
+            .WithMany(e => e.EducationDirections)
+            .HasForeignKey(s => s.EducationTypeId);
+        
+        modelBuilder.Entity<EducationDirection>()
+            .HasOne(s => s.User)
+            .WithMany(e => e.EducationDirections)
+            .HasForeignKey(s => s.UserId);
+
+        //education type foreign key
+        modelBuilder.Entity<EducationType>()
+            .HasOne(s => s.User)
+            .WithMany(e => e.EducationTypes)
+            .HasForeignKey(s => s.UserId);
+    
+        //user foreign key
+        modelBuilder.Entity<User>()
+            .HasOne(s => s.Password)
+            .WithOne(e => e.User)
+            .HasForeignKey<Password>(s => s.UserId);
+        
+        modelBuilder.Entity<User>()
+            .HasOne(s => s.Session)
+            .WithOne(e => e.User)
+            .HasForeignKey<Session>(s => s.UserId);
+
+        //session foreign key
+        modelBuilder.Entity<Session>()
+            .HasOne(s => s.User)
+            .WithOne(e => e.Session)
+            .HasForeignKey<Session>(s => s.UserId);
+
     }
     
 }

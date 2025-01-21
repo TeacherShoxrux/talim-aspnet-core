@@ -1,6 +1,6 @@
 namespace Talim.Data.Entity;
 
-public enum UserRole
+public enum EUserRole
 {
     Student,
     Teacher,

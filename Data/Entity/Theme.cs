@@ -4,9 +4,11 @@ public class Theme : EntityBase
     public string? Name { get; set; }
 
     public int SubjectId { get; set; }
-    public Subject? Subject { get; set; }
+    public virtual Subject? Subject { get; set; }
+    public int UserId { get; set; }
+    public virtual User? User { get; set; }
 
-    public List<Content>? Contents { get; set; }
+    public virtual ICollection<Content>? Contents { get; set; }
 
 
 }

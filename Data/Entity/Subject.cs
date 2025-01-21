@@ -9,8 +9,8 @@ public class Subject : EntityBase
     public string? Image { get; set; }
     public int UserId { get; set; }
     public virtual User? User { get; set; }
-    public int EducationTypeId { get; set; }
-    public EducationDirection? EducationType { get; set; }
-    public ICollection<Theme>? Themes { get; set; }
+    public int EducationDirectionId { get; set; }
+    public virtual EducationDirection? EducationDirection { get; set; }
+    public virtual ICollection<Theme>? Themes { get; set; }
     
 }
