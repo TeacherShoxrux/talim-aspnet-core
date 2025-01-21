@@ -94,6 +94,31 @@ public class ApplicationDbContext : DbContext
             .WithOne(e => e.Session)
             .HasForeignKey<Session>(s => s.UserId);
 
+        base.OnModelCreating(modelBuilder);
+
+    }
+    public override int SaveChanges()
+    {
+        SetDates();
+        return base.SaveChanges();
     }
     
-}
+    protected override void ConfigureConventions(ModelConfigurationBuilder builder)
+    {
+        
+    }
+        private void SetDates()
+    {
+        foreach (var entry in ChangeTracker.Entries<EntityBase>())
+        {
+            if (entry.State == EntityState.Added)
+                entry.Entity.CreatedAt = DateTime.Now;
+            entry.Entity.UpdatedAt = DateTime.Now;
+
+            if (entry.State == EntityState.Modified)
+                entry.Entity.UpdatedAt = DateTime.Now;
+        }
+    }
+    }
+    
+
