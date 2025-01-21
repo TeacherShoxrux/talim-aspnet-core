@@ -7,7 +7,7 @@ public class User : EntityBase
     public string? PhoneNumber { get; set; }
     public  Password? password { get; set; }
     public ICollection<Session?>? Session { get; set; }
-    public ICollection<Type?>? Type { get; set; }
+    public ICollection<EducationType?>? EducationType { get; set; }
     public EducationDirection? EducationDirection { get; set; }
     public ICollection<Subject?>? Subjects { get; set; }
     public ICollection<Theme?>? Themes { get; set; }

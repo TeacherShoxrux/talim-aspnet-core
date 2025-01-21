@@ -1,5 +1,5 @@
 namespace  Talim.Data.Entity;
-public class Type{
+public class EducationType{
     
     public string? Name { get; set; }
     public string? Image { get; set; }

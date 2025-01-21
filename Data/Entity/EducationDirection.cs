@@ -11,7 +11,7 @@ public class EducationDirection : EntityBase
     public int UserId { get; set; }
     public User? User { get; set; }
     public int TypeId { get; set; }
-    public Type? Type { get; set; }
+    public EducationType? EducationType { get; set; }
     public ICollection<Subject>? Subjects { get; set; }
 
     }
