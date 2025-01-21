@@ -1,10 +1,16 @@
-namespace Talim.Data.Entity;
-public class Subject
+using System.ComponentModel.DataAnnotations;
+
+namespace  Talim.Data.Entity;
+public class Subject : EntityBase
 {
-    public int SubjectId { get; set; }
-    public string Name { get; set; }
+    [Required]
+    public string?  Name { get; set; }
+    public string? Description { get; set; }
+    public string? Image { get; set; }
+    public int UserId { get; set; }
+    public virtual User? User { get; set; }
     public int EducationTypeId { get; set; }
-    public EducationType EducationType { get; set; }
-    public ICollection<Theme> Themes { get; set; }
-    public ICollection<Enrollment> Enrollments { get; set; }
+    public EducationDirection? EducationType { get; set; }
+    public ICollection<Theme>? Themes { get; set; }
+    
 }
