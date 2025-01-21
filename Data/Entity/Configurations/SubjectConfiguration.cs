@@ -8,9 +8,10 @@ public class SubjectConfiguration : EntityBaseConfiguration<Subject>
 {
     public override void Configure(EntityTypeBuilder<Subject> builder)
     {
+        base.Configure(builder);
         builder.Property(e => e.Name).HasColumnType("nvarchar(50)").IsRequired();
         builder.Property(e => e.Description).HasColumnType("nvarchar(256)");
         builder.Property(u => u.Image).HasColumnType("nvarchar(256)");
-        base.Configure(builder);
+        
     }
 }

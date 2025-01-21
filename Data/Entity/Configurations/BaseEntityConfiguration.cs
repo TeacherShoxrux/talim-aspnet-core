@@ -8,7 +8,7 @@ public class EntityBaseConfiguration<T> : IEntityTypeConfiguration<T> where T : 
     {
         builder.HasKey(b => b.Id);
         builder.Property(b => b.Id)
-                .HasColumnType("ulong")
+                .HasColumnType("integer")
                 .ValueGeneratedOnAdd();
         builder.Property(b => b.CreatedAt).IsRequired();
         builder.Property(b => b.UpdatedAt).IsRequired();

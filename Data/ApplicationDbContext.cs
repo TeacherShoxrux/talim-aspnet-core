@@ -1,3 +1,4 @@
+using System.Reflection;
 using Microsoft.EntityFrameworkCore;
 using Talim.Data.Entity;
 
@@ -93,7 +94,8 @@ public class ApplicationDbContext : DbContext
             .HasOne(s => s.User)
             .WithOne(e => e.Session)
             .HasForeignKey<Session>(s => s.UserId);
-
+        
+          modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
         base.OnModelCreating(modelBuilder);
 
     }

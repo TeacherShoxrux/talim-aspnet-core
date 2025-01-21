@@ -4,8 +4,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Talim.Data.Entity;
 
-public class UserEntityConfiguration : IEntityTypeConfiguration<User>{
-    public void Configure(EntityTypeBuilder<User> builder){
+public class UserEntityConfiguration : EntityBaseConfiguration<User>{
+    public override void Configure(EntityTypeBuilder<User> builder){
+        base.Configure(builder);
         builder.Property(u => u.FirstName).HasColumnType("nvarchar(50)");
         builder.Property(u => u.LastName).HasColumnType("nvarchar(50)");
         builder.Property(u => u.Image).HasColumnType("nvarchar(256)");
