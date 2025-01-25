@@ -4,13 +4,13 @@ namespace Talim.Services;
 
 public interface IUserService
 {
-    ValueTask<UserDetails> ForgetPassword(UserLogin userLogin);
-    ValueTask<Session> Authenticate(UserLogin userLogin);
+    ValueTask<Result<UserDetails>> ForgetPassword(UserLogin userLogin);
+    ValueTask<Result<Session>> Authenticate(UserLogin userLogin);
 
-    ValueTask<UserDetails> GetUserDetails(int id);
+    ValueTask<Result<UserDetails>> GetUserDetails(int id);
 
-    ValueTask<UserDetails> UpdateUser(UserUpdate userUpdate);
+    ValueTask<Result<UserDetails>> UpdateUser(UserUpdate userUpdate);
 
-    ValueTask<UserDetails> RegisterUser(UserRegister userRegister);
+    ValueTask<Result<UserDetails>> RegisterUser(UserRegister userRegister);
 
 }

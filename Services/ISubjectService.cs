@@ -2,9 +2,8 @@ using Talim.DTOs;
 
 namespace Talim.Services;
 public interface ISubjectService{
-    ValueTask<List<Subject>> GetSubjectsByEducationDirectionIdAsync(int id);
-    ValueTask<Subject> GetSubjectByIdAsync(int id);
-    ValueTask<Subject> CreateSubjectAsync(NewSubject newSubject);
-    ValueTask<Subject> UpdateSubjectAsync(int id, NewSubject newSubject);
-    ValueTask DeleteSubjectAsync(int id);
-}
+    ValueTask<Result<List<Subject>>> GetSubjectsByEducationDirectionIdAsync(int id);
+    ValueTask<Result<Subject>> GetSubjectByIdAsync(int id);
+    ValueTask<Result<Subject>> CreateSubjectAsync(NewSubject newSubject);
+    ValueTask<Result<Subject>> UpdateSubjectAsync(int id, NewSubject newSubject);
+    ValueTask<Result<Subject>> DeleteSubjectAsync(int id);}

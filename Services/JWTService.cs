@@ -3,6 +3,7 @@ using System.Security.Claims;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
 using Talim.Const;
+using Talim.Data.Entity;
 
 namespace Talim.Services;
 public class JWTService : IJWTService
@@ -18,13 +19,12 @@ public class JWTService : IJWTService
         {
              var identity=httpContext.User.Identity as ClaimsIdentity;
              var claims=identity!.Claims;
-             return new()
-             {
-                Id=ulong.Parse((claims.FirstOrDefault(w=>w.Type==ClaimTypes.NameIdentifier)
+             return new JwtConst(
+                int.Parse((claims.FirstOrDefault(w=>w.Type==ClaimTypes.NameIdentifier)
                 ?? throw new NullReferenceException("Jwt Id is null")).Value),
-                Role=(claims.FirstOrDefault(r=>r.Type==ClaimTypes.Role) 
-                ?? throw new NullReferenceException("Jwt Role is null")).Value
-             };
+                Enum.Parse<EUserRole>((claims.FirstOrDefault(r=>r.Type==ClaimTypes.Role) 
+                ?? throw new NullReferenceException("Jwt Role is null")).Value)
+             );
         }
         catch (System.Exception)
         {
@@ -42,7 +42,7 @@ public class JWTService : IJWTService
         var credentials= new SigningCredentials(securityKey,SecurityAlgorithms.HmacSha256);
         var claims= new[]{
             new Claim(ClaimTypes.NameIdentifier,claim.Id.ToString()),
-            new Claim(ClaimTypes.Role,claim.Role!),
+            new Claim(ClaimTypes.Role,claim.Role.ToString()),
         };
         var token = new JwtSecurityToken(
             issuer,
