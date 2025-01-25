@@ -1,3 +1,4 @@
+namespace Talim.Controllers;
 using Microsoft.AspNetCore.Mvc;
 using Talim.DTOs;
 using Talim.Services;
@@ -31,4 +32,5 @@ public partial class UserController : ControllerBase
         var user = await _userService.RegisterUser(register);
         return Ok(user);
     }
+    
 }

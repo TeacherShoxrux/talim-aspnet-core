@@ -8,6 +8,7 @@ using Microsoft.OpenApi.Models;
 using Talim.Data;
 using Talim.Data.Entity;
 using Talim.Data.Seed;
+using Talim.DTOs;
 using Talim.Repositories;
 using Talim.Services;
 
@@ -37,6 +38,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     builder.Services.AddScoped<IJWTService,JWTService>();
     builder.Services.AddScoped<IUnitOfWork,UnitOfWork>();
     builder.Services.AddScoped<IUserService,UserService>();
+    builder.Services.AddScoped<IEducationTypeService,EducationTypeService>();
 
 builder.Services.AddDbContext<ApplicationDbContext>(options => options
         .UseSqlite(builder.Configuration
