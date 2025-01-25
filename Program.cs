@@ -40,6 +40,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     builder.Services.AddScoped<IUserService,UserService>();
     builder.Services.AddScoped<IEducationTypeService,EducationTypeService>();
     builder.Services.AddScoped<IEducationDirectionService,EducationDirectionService>();
+    builder.Services.AddScoped<ISubjectService,SubjectService>();
 
 builder.Services.AddDbContext<ApplicationDbContext>(options => options
         .UseSqlite(builder.Configuration

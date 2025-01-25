@@ -25,7 +25,7 @@ public class UserService : IUserService
 
             if (passwprd == null)
             {
-                return new Result<Session>("Invalid Email or Password");
+                return new Result<Session>("Elektron pochta yoki parol xato (Invalid Email or Password)");
             }
             var oldSession = await  _unitOfWork.SessionRepository.GetAllAsync().FirstOrDefaultAsync(e=>e.UserId==e.UserId);
             if (oldSession != null)
@@ -34,7 +34,7 @@ public class UserService : IUserService
                 _unitOfWork.Save();
             }
             var session = await _unitOfWork.SessionRepository.AddAsync(new (){
-                AccessToken = _jwtService.GenerateToken(new JwtConst(passwprd.User.Id, passwprd.User.Role)), 
+                AccessToken = _jwtService.GenerateToken(new JwtConst(passwprd.User!.Id, passwprd.User.Role)), 
                 UserId = passwprd.User.Id,
                 RefreshToken = Guid.NewGuid(),
                 ExpirationDate=DateTime.Now.AddDays(30)
