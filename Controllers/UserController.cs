@@ -1,12 +1,34 @@
 using Microsoft.AspNetCore.Mvc;
+using Talim.DTOs;
+using Talim.Services;
 
 [ApiController]
 [Route("api/[controller]")]
 public partial class UserController : ControllerBase
 {
-     [HttpGet]
-     public async Task<IActionResult> GetDataAdmin()
+    private readonly IUserService _userService;
+    public UserController(IUserService userService)
     {
-        return Ok();
+        _userService=userService;
+    }
+    [HttpGet]
+     public async Task<IActionResult> Authenticate(int id)
+    {
+        var session = await _userService.GetUserDetails(id);
+        return Ok(session);
+    }
+    
+    [HttpPost("Login")]
+     public async Task<IActionResult> Authenticate(UserLogin login)
+    {
+        var session = await _userService.Authenticate(login);
+        return Ok(session);
+    }
+    
+    [HttpPost("Register")]
+     public async Task<IActionResult> RegisterUser(UserRegister register)
+    {
+        var user = await _userService.RegisterUser(register);
+        return Ok(user);
     }
 }
