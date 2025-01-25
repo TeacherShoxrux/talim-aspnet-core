@@ -2,11 +2,11 @@ using Talim.DTOs;
 
 namespace Talim.Services;
 
-    public interface IEducationDirection
+    public interface IEducationDirectionService
     {
-        Task<List<EducationDirection>> GetAllByEducationTypeId(int id);
-        Task<EducationDirection> GetById(int id);
-        Task<EducationDirection> CreateEducationDirectionByEducationType(int id,EducationDirectionCreate educationDirection);
-        Task<EducationDirection> UpdateById(int id,EducationDirectionUpdate educationDirection);
-        Task<EducationDirection> DeleteById(int id);
+        Task<Result<List<EducationDirection>>> GetAllByEducationTypeId(int id);
+        Task<Result<EducationDirection>> GetById(int id);
+        Task<Result<EducationDirection>> CreateEduDirection(int userId,NewEducationDirection educationDirection);
+        Task<Result<EducationDirection>> UpdateById(int id,EducationDirectionUpdate educationDirection);
+        Task<Result<EducationDirection>> DeleteById(int id);
     }
