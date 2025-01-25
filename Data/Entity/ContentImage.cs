@@ -6,6 +6,6 @@ public class ContentImage : EntityBase
     public string? Path { get; set; }
     public int UserId { get; set; }
     public virtual User? User { get; set; }
-    public int ContentId { get; set; }
+    public int ContentId { get; set; }=1;
     public virtual Content? Content { get; set; }
 }
