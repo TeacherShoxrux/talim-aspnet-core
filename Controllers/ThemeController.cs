@@ -44,6 +44,11 @@ public class ThemeController : ControllerBase
         var themes = await _themeService.GetContentByThemeIdAsync(id);
         return Ok(themes);
     }
-    
-    
+    [HttpPost("ImageUploadContentById/{id}")]
+    [Consumes("multipart/form-data")]
+    public async Task<IActionResult> UploadImageByContentId(int id,IFormFile file)
+    {
+        var img = await _themeService.UploadImage(id,file);
+        return Ok(img);
+    }
 }

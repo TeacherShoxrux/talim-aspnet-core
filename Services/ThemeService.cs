@@ -6,10 +6,12 @@ namespace Talim.Services;
 public class ThemeService : IThemeService
 {
     private readonly IUnitOfWork _unitOfWork;
+    private readonly IFileService _fileService;
 
-    public ThemeService(IUnitOfWork unitOfWork)
+    public ThemeService(IUnitOfWork unitOfWork,IFileService fileService)
     {
         _unitOfWork = unitOfWork;
+        _fileService = fileService;
     }
 
     public async Task<Result<Theme>> UpdateTheme(int userId,NewThemeContent newTheme)
@@ -194,6 +196,48 @@ public class ThemeService : IThemeService
         {
             
             throw;
+        }
+    }
+
+    public async Task<Result<ContentImage>> UploadImage(int ContentId,IFormFile formFile)
+    {
+        try
+        {
+            var content = await _unitOfWork.ContentRepository.GetByIdAsync(ContentId);
+            if (content == null)
+            {
+                return new("Matn ID si topilmadi.(Content ID not found.)");
+            }
+
+            var imageUrl = await _fileService.UploadFileAsync(formFile);
+            if (string.IsNullOrEmpty(imageUrl))
+            {
+                return new("Rasm Yuklashda xatolik yuz berdi. Rasm yuklanmadi.(Image upload failed.)");
+            }
+
+            
+            var image = await _unitOfWork.
+                    ContentImageRepository.
+                    AddAsync(new(){
+                        ContentId=content.Id,
+                        Title=content.Name,
+                        UserId=content.UserId,
+                        Path=imageUrl
+                        });
+            _unitOfWork.Save();
+        return new(true)
+        {
+            Data= new(){
+                Id=image.Id,
+                Path=image.Path,
+                Title=image.Title,
+                ContentId=content.Id
+            }
+        };   
+        }
+        catch (System.Exception e)
+        {
+           return new($"Rasm Yuklashda xatolik yuz berdi.(Image upload failed.) : {e.Message}");
         }
     }
 }

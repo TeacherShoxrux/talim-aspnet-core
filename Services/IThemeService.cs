@@ -7,5 +7,5 @@ public interface IThemeService {
     Task<Result<ThemeContent>> GetContentByThemeIdAsync(int id);
     Task<Result<Theme>> UpdateTheme(int userId, NewThemeContent newTheme);
     Task<Result<Theme>> CreateTheme(int userId, int subjectId);
-
+    Task<Result<ContentImage>> UploadImage(int ContentId,IFormFile formFile);
 }

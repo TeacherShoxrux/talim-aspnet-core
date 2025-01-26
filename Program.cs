@@ -3,6 +3,7 @@ using System.Text;
 using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Talim.Data;
@@ -42,6 +43,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     builder.Services.AddScoped<IEducationDirectionService,EducationDirectionService>();
     builder.Services.AddScoped<ISubjectService,SubjectService>();
     builder.Services.AddScoped<IThemeService,ThemeService>();
+    builder.Services.AddScoped<IFileService,FileService>();
 
 builder.Services.AddDbContext<ApplicationDbContext>(options => options
         .UseSqlite(builder.Configuration
@@ -55,8 +57,18 @@ if (app.Environment.IsDevelopment()||app.Environment.IsProduction())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
+var dir= builder.Configuration["StoragePath"]??Path.Combine(Directory.GetCurrentDirectory(), "Static");
+if (!File.Exists(dir))
+{
+    Directory.CreateDirectory(dir);
+}
 app.UseHttpsRedirection();
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = new PhysicalFileProvider(dir),
+    RequestPath = "/file"
+});
+app.UseDefaultFiles();
 app.MapControllers();
 
 
