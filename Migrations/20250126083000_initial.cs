@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace talim_aspnet_core.Migrations
 {
     /// <inheritdoc />
-    public partial class init : Migration
+    public partial class initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -174,6 +174,7 @@ namespace talim_aspnet_core.Migrations
                     Description = table.Column<string>(type: "nvarchar(256)", nullable: false),
                     SubjectId = table.Column<int>(type: "integer", nullable: false),
                     UserId = table.Column<int>(type: "integer", nullable: false),
+                    IsDraft = table.Column<bool>(type: "INTEGER", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "TEXT", nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "TEXT", nullable: false)
                 },
@@ -205,6 +206,7 @@ namespace talim_aspnet_core.Migrations
                     UserId = table.Column<int>(type: "integer", nullable: false),
                     ThemeId = table.Column<int>(type: "integer", nullable: false),
                     Views = table.Column<int>(type: "INTEGER", nullable: false),
+                    IsDraft = table.Column<bool>(type: "INTEGER", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "TEXT", nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "TEXT", nullable: false)
                 },

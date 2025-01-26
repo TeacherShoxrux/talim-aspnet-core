@@ -12,48 +12,45 @@ public class ThemeService : IThemeService
         _unitOfWork = unitOfWork;
     }
 
-    public async Task<Result<Theme>> CreateTheme(int userId,NewThemeContent newTheme)
+    public async Task<Result<Theme>> UpdateTheme(int userId,NewThemeContent newTheme)
     {
         try
         {
-            var theme = await _unitOfWork.
-                    ThemeRepository.
-                    AddAsync(new(){
-                        UserId=userId,
-                        SubjectId=newTheme.SubjectId,
-                        Name=newTheme.Name,
-                        Description="",
-                        Contents = new List<Data.Entity.Content>(){
-                            new (){
-                              Name= newTheme.Name,
-                              ContentText=newTheme.ContentText,
-                              UserId=userId,
-                            }}
-                       
-                    });
-            _unitOfWork.Save();
-            
-            var conts = theme.Contents?? new List<Data.Entity.Content>();
-            Content? themeContent = null;
-            if (conts.Count != 0)
+
+            var theme = await _unitOfWork.ThemeRepository.GetByIdAsync(newTheme.ThemeId);
+            if (theme == null)
             {
-                var cont=conts.First();
-                themeContent = new Content(){
-                Id= cont.Id,
-                Name=cont.Name,
-                ContentText=cont.ContentText,
-                Views=cont.Views
-             };
-            }  
-            
-            
+                return new("Mavzu ID si topilmadi(Theme ID not found).");
+            }
+            var content = await _unitOfWork.ContentRepository.GetByIdAsync(newTheme.ContentId);
+            if (content == null)
+            {
+                return new("(Content ID not found).");
+            }
+            theme.IsDraft=false;
+            theme.Name=newTheme.Name;
+            theme.UpdatedAt=DateTime.Now;
+            content.UpdatedAt=DateTime.Now;
+            content.ContentText=newTheme.ContentText;
+            content.Name=newTheme.Name;
+           content = await _unitOfWork.ContentRepository.UpdateAsync(content);
+           theme = await _unitOfWork.ThemeRepository.UpdateAsync(theme);
+           _unitOfWork.Save();
             return new(true){
                 Data=new(){
                     Id=theme.Id,
                     Description=theme.Description,
                     Name=theme.Name,
+                    CreatedAt=theme.CreatedAt,
+                    UpdatedAt=theme.UpdatedAt,
                     SubjectId=theme.SubjectId,
-                    ThemeContent=themeContent
+                    ThemeContent=new (){
+                        Id=content.Id,
+                        ContentText=content.ContentText,
+                        Name=content.Name,
+                        CreatedAt=content.CreatedAt,
+                        UpdatedAt=content.UpdatedAt,
+                    }
                 }
             };
         }
@@ -63,6 +60,7 @@ public class ThemeService : IThemeService
             return new($"Mavzu matnlari qo'shishda xatolik yuz berdi tekshirib koring (There was an error adding subject lines, please check.).{e.Message}");
         }
     }
+
 
     public async Task<Result<List<Theme>>> GetAllThemesBySubjectIdAsync(int subjectId)
     {
@@ -115,8 +113,87 @@ public class ThemeService : IThemeService
         }
     }
 
-    public Task<Result<Theme>> UpdateTheme(Theme theme)
+    public async Task<Result<Theme>> CreateTheme(int userId, int subjectId)
     {
-        throw new NotImplementedException();
+        try
+        {
+            var draftTheme = await _unitOfWork.
+                    ThemeRepository.
+                    GetAllAsync().
+                    Include(t=>t.Contents).
+                    FirstOrDefaultAsync(e=>e.SubjectId==subjectId && e.UserId==userId && e.IsDraft);
+            if (draftTheme != null)
+            {
+                var conts = draftTheme.Contents?? new List<Data.Entity.Content>();
+                Content? themeContent = null;
+                if (conts.Count != 0)
+                {
+                    var cont=conts.First();
+                    themeContent = new Content(){
+                    Id= cont.Id,
+                    Name=cont.Name,
+                    ContentText=cont.ContentText,
+                    Views=cont.Views
+                };
+                }  
+                return new(true){
+                Data=new(){
+                    Id=draftTheme.Id,
+                    Description=draftTheme.Description,
+                    Name=draftTheme.Name,
+                    SubjectId=draftTheme.SubjectId,
+                    ThemeContent=themeContent
+                }
+                };
+            }
+            else{
+                var theme = await _unitOfWork.
+                    ThemeRepository.
+                    AddAsync(new(){
+                        UserId=userId,
+                        SubjectId=subjectId,
+                        Name="Mavzu nomi",
+                        Description="",
+                        IsDraft=true,
+                        Contents = new List<Data.Entity.Content>(){
+                            new (){
+                              Name= "Mavzu nomi",
+                              ContentText="Mavzu matni",
+                              UserId=userId,
+                              IsDraft=true
+                            }}
+                       
+                    });
+                _unitOfWork.Save();
+                var conts = theme.Contents?? new List<Data.Entity.Content>();
+                Content? themeContent = null;
+                if (conts.Count != 0)
+                {
+                    var cont=conts.First();
+                    themeContent = new Content(){
+                    Id= cont.Id,
+                    Name=cont.Name,
+                    ContentText=cont.ContentText,
+                    Views=cont.Views
+                };
+                }  
+                return new(true){
+                    Data=new(){
+                        Id=theme.Id,
+                        Description=theme.Description,
+                        Name=theme.Name,
+                        SubjectId=theme.SubjectId,
+                        ThemeContent=themeContent
+                        }
+                    };
+            }
+            
+           
+        }
+        catch (System.Exception)
+        {
+            
+            throw;
+        }
     }
 }

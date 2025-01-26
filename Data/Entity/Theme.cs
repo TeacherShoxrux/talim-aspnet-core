@@ -8,6 +8,7 @@ public class Theme : EntityBase
     public virtual Subject? Subject { get; set; }
     public int UserId { get; set; }
     public virtual User? User { get; set; }
+    public bool IsDraft { get; set; }=true;
 
     public virtual ICollection<Content>? Contents { get; set; }
 

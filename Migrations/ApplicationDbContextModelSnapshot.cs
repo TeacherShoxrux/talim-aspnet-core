@@ -30,6 +30,9 @@ namespace talim_aspnet_core.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("TEXT");
 
+                    b.Property<bool?>("IsDraft")
+                        .HasColumnType("INTEGER");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(50)");
@@ -272,6 +275,9 @@ namespace talim_aspnet_core.Migrations
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("nvarchar(256)");
+
+                    b.Property<bool>("IsDraft")
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Name")
                         .IsRequired()

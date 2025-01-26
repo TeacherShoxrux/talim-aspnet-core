@@ -15,11 +15,19 @@ public class ThemeController : ControllerBase
         _themeService = themeService;
     }
 
-    [HttpPost]
-     public async Task<IActionResult> AddTheme(NewThemeContent newTheme)
+    [HttpGet("Create/{subjectId}")]
+     public async Task<IActionResult> AddTheme(int subjectId)
     {
         var userId=1;
-        var theme = await _themeService.CreateTheme(userId,newTheme);
+        var theme = await _themeService.CreateTheme(userId,subjectId);
+       
+        return Ok(theme);
+    }
+    [HttpPut]
+     public async Task<IActionResult> UpdateTheme(NewThemeContent newTheme)
+    {
+        var userId=1;
+        var theme = await _themeService.UpdateTheme(userId,newTheme);
        
         return Ok(theme);
     }
@@ -28,10 +36,9 @@ public class ThemeController : ControllerBase
     public async Task<IActionResult> GetAllThemesBySubjectId(int id)
     {
         var themes = await _themeService.GetAllThemesBySubjectIdAsync(id);
-
         return Ok(themes);
     }
-     [HttpGet("Content/{id}")]
+    [HttpGet("Content/{id}")]
     public async Task<IActionResult> GetAllContentByThemesId(int id)
     {
         var themes = await _themeService.GetContentByThemeIdAsync(id);

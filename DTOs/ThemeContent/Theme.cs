@@ -5,6 +5,8 @@ public class Theme{
     public string? Description { get; set; }
     public int SubjectId { get; set; }
     public Content? ThemeContent { get; set; }
+    public DateTime CreatedAt { get; set; }
+    public DateTime? UpdatedAt { get; set; }
 
     
 }
@@ -14,5 +16,7 @@ public class Content
     public string? Name { get; set; }
     public string? ContentText { get; set; }
     public int Views { get; set; }
+    public DateTime CreatedAt { get; set; }
+    public DateTime? UpdatedAt { get; set; }
 
 }

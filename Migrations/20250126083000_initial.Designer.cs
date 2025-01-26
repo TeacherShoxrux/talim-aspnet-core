@@ -11,8 +11,8 @@ using Talim.Data;
 namespace talim_aspnet_core.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250122191803_init")]
-    partial class init
+    [Migration("20250126083000_initial")]
+    partial class initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -32,6 +32,9 @@ namespace talim_aspnet_core.Migrations
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("TEXT");
+
+                    b.Property<bool?>("IsDraft")
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -275,6 +278,9 @@ namespace talim_aspnet_core.Migrations
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("nvarchar(256)");
+
+                    b.Property<bool>("IsDraft")
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Name")
                         .IsRequired()
