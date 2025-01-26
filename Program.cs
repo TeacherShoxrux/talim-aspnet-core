@@ -66,7 +66,7 @@ app.UseHttpsRedirection();
 app.UseStaticFiles(new StaticFileOptions
 {
     FileProvider = new PhysicalFileProvider(dir),
-    RequestPath = "/file"
+    RequestPath = "/files"
 });
 app.UseDefaultFiles();
 app.MapControllers();
