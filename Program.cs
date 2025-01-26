@@ -16,6 +16,16 @@ using Talim.Services;
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll", policy =>
+    {
+        policy.AllowAnyOrigin() // Allow any origin
+              .AllowAnyMethod() // Allow any HTTP method (GET, POST, PUT, DELETE, etc.)
+              .AllowAnyHeader(); // Allow any headers
+    });
+});
 // Add services to the container.
 builder.Services.AddControllers().AddJsonOptions(x =>
                 x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
@@ -50,7 +60,12 @@ builder.Services.AddDbContext<ApplicationDbContext>(options => options
         .GetConnectionString("DefaultConnection")));
 
 var app = builder.Build();
-Seed.SeedData(builder.Services.BuildServiceProvider().GetRequiredService<ApplicationDbContext>());
+using (var scope = app.Services.CreateScope())
+{
+    var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+    Seed.SeedData(context);
+}
+app.UseCors("AllowAll");
 app.UseHttpsRedirection();
 if (app.Environment.IsDevelopment()||app.Environment.IsProduction())
 {
@@ -62,12 +77,12 @@ if (!File.Exists(dir))
 {
     Directory.CreateDirectory(dir);
 }
-app.UseHttpsRedirection();
 app.UseStaticFiles(new StaticFileOptions
 {
     FileProvider = new PhysicalFileProvider(dir),
     RequestPath = "/files"
 });
+
 app.UseDefaultFiles();
 app.MapControllers();
 
