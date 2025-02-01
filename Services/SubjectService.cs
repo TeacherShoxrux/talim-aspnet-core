@@ -83,6 +83,30 @@ public class SubjectService : ISubjectService
         }
     }
 
+    public async ValueTask<Result<List<Subject>>> GetTopSubjectsAsync(int max=10)
+    {
+        try
+        {
+            var topsSubject = await _unitOfWork.SubjectRepository.GetAllAsync().Take(max).ToListAsync();
+           return new(true)
+            {
+                Data = topsSubject.Select(e=> new Subject(){
+                    Id = e.Id,
+                    EducationDirectionId = e.EducationDirectionId,
+                    Name = e.Name,
+                    Image = e.Image,
+                    Description = e.Description
+                }).ToList()
+            };
+        }
+        catch (System.Exception e)
+        {
+            return new($"Fanlarni olishda xatolik yuz berdi (There was an error retrieving information Subject.), {e.Message}");
+            
+        }
+        
+    }
+
     public ValueTask<Result<Subject>> UpdateSubjectAsync(int id, NewSubject newSubject)
     {
         throw new NotImplementedException();

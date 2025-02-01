@@ -26,4 +26,10 @@ public class SubjectController : ControllerBase
         var subject = await _subjectService.GetSubjectsByEducationDirectionIdAsync(id);
         return Ok(subject);
      }
+     [HttpGet("Top/{max}")]
+      public async Task<IActionResult> GetTopSubjects(int max=10)
+     {
+        var subject = await _subjectService.GetTopSubjectsAsync(max);
+        return Ok(subject);
+     }
 }
