@@ -57,6 +57,7 @@ public class EducationTypeService : IEducationTypeService
             {
                 Data = eduTypes.Select(eduType => new EducationType
                 {
+                    Id=eduType.Id,
                     Name = eduType.Name,
                     Description = eduType.Description,
                     Image = eduType.Image,
