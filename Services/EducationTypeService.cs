@@ -38,14 +38,43 @@ public class EducationTypeService : IEducationTypeService
         }
         catch (System.Exception)
         {
-            return new("Talim turini yaratishda xatolik uz berdi. Iltimos, qoʻllab-quvvatlash xizmatiga murojaat qiling(An error occurred while creating the training type. Please contact support.)");
+            
+            return new("Talim turini yaratishda xatolik uz berdi. Iltimos, qo'llab-quvvatlash xizmatiga murojaat qiling (An error occurred while creating the training type. Please contact support.)");
         }
  
     }
 
-    public Task<Result<EducationType>> Delete(int userId,int id)
+    public async Task<Result<EducationType>> Delete(int userId,int id)
     {
-        throw new NotImplementedException();
+        try
+        {
+            var eduType = await _unitOfWork.EducationTypeRepository.GetByIdAsync(id);
+            if (eduType == null || eduType.UserId != userId)
+            {
+                return new("Ta'lim turi topilmadi yoki sizda uni o'chirish huquqi yo'q (Education type not found or you do not have permission to delete it).");
+            }
+
+            eduType = await _unitOfWork.EducationTypeRepository.DeleteAsync(eduType);
+            _unitOfWork.Save();
+            return new(true)
+            {
+                Data = new EducationType
+                {
+                    Id = eduType.Id,
+                    Name = eduType.Name,
+                    Description = eduType.Description,
+                    Image = eduType.Image,
+                    CreatedAt = eduType.CreatedAt,
+                    UpdatedAt = eduType.UpdatedAt,
+                }
+            };
+        }
+        catch (System.Exception e)
+        {
+            return new($"O'chirishda xatolik yuz berdi (Error occuren while deleting EduTypes) Message: {e.Message}");
+            throw;
+        }
+       
     }
 
     public async Task<Result<List<EducationType>>> GetAll()

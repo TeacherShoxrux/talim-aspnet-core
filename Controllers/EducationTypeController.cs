@@ -24,4 +24,11 @@ public class EducationTypeController : ControllerBase
         var educationTypes = await _educationTypeService.GetAll();
         return Ok(educationTypes);
     }
+     
+     [HttpDelete("{id}")]
+     public async Task<IActionResult> DeleteById(int id){
+        int userId=1;
+        var educationDirection = await _educationTypeService.Delete(userId,id);
+        return Ok(educationDirection);
+     }
 }

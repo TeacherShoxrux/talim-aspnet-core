@@ -73,6 +73,8 @@ if (app.Environment.IsDevelopment()||app.Environment.IsProduction())
     app.UseSwaggerUI();
 }
 var dir= builder.Configuration["StoragePath"]??Path.Combine(Directory.GetCurrentDirectory(), "Static");
+System.Console.WriteLine(dir);
+System.Console.WriteLine("-----------------------");
 if (!File.Exists(dir))
 {
     Directory.CreateDirectory(dir);
