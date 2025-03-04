@@ -47,7 +47,7 @@ public class FileService : IFileService
             {
                 Directory.CreateDirectory(folderFullPath);
             }
-            var fileFullName=Guid.NewGuid().ToString()+"-" + file.FileName;
+            var fileFullName=Guid.NewGuid().ToString()+"-" + file.FileName.Replace(" ","_");
             var fileFullPath = Path.Combine(folderFullPath,fileFullName);
             using (var stream = new FileStream(fileFullPath, FileMode.Create))
             {

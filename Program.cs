@@ -21,17 +21,17 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAll", policy =>
     {
-        policy.AllowAnyOrigin() // Allow any origin
-              .AllowAnyMethod() // Allow any HTTP method (GET, POST, PUT, DELETE, etc.)
-              .AllowAnyHeader(); // Allow any headers
+        policy.AllowAnyOrigin() 
+              .AllowAnyMethod() 
+              .AllowAnyHeader();
     });
 });
 // Add services to the container.
 builder.Services.AddControllers().AddJsonOptions(x =>
                 x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
 builder.Services.AddSwaggerGen(
-    c=>c.SwaggerDoc("v1",new OpenApiInfo{Title="Aspnet Core Api", Version="v1"})
-);
+    c=>c.SwaggerDoc("v1",new OpenApiInfo{Title="Aspnet Core Api", Version="v1"}));
+
 // Add Auhentication JWT token
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(option=>{
@@ -46,6 +46,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         IssuerSigningKey= new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]!))
     }; 
 });
+
     builder.Services.AddScoped<IJWTService,JWTService>();
     builder.Services.AddScoped<IUnitOfWork,UnitOfWork>();
     builder.Services.AddScoped<IUserService,UserService>();
